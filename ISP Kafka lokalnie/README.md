@@ -11,11 +11,10 @@ This project focuses on analyzing real-time and historical weather data to detec
 - **AWS EMR**: Hosting Spark clusters and S3 for data storage.
 - **Python**: Primary programming language.
 - **Open-Meteo API**: Source of real-time and historical weather data.
-- 
 
 ---
 
-## Project Components Kafka
+## Project Components
 
 ### 1. Data Ingestion
 - **Kafka Producers** (`kafka_producer.py`, `kafka_producer_copy.py`):
@@ -38,6 +37,8 @@ This project focuses on analyzing real-time and historical weather data to detec
 ### 4. Predictive Modeling (Not Implemented)
 - **Spark MLlib**:
   - Initial data preparation was completed, but model training and deployment were not achieved due to time constraints and technical challenges (e.g., dataset compatibility issues, lack of ML expertise).
+
+---
 
 ## Key Results
 1. **Real-time weather streaming**
@@ -115,57 +116,4 @@ This project focuses on analyzing real-time and historical weather data to detec
     # Run python kafka_producer_copy.py to initialize producer which stream real-time data from website or python kafka_producer.py to initialize producer which stram next samples from given csb
     # Run spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.4 test.py to initialize consumer
 
-
----
-
-## Project Components code on your local device
-### 1. Data Ingestion and Processing from OpenMeteo API
-Retrieving and Utilizing Data from Open-Meteo API
-
-- The Open-Meteo API provides a reliable and efficient way to access weather data for various geographic locations. This report outlines the step-by-step process of retrieving, processing, and visualizing weather data using the Open-Meteo API.
-
-1. Understanding the API
-
-- Before retrieving data, it is crucial to familiarize oneself with the Open-Meteo API documentation. This documentation provides an overview of the available endpoints, parameters, and types of data accessible through the API. Understanding these aspects ensures the correct construction of API requests.
-
-2. Building the API Request URL
-
-- To retrieve weather data, one needs to construct an appropriate API request URL. The URL should include essential parameters such as latitude, longitude, and the specific weather variables required.
-
-3. Making the API Request
-
-- Using a programming language such as Python, one can send an HTTP GET request to the Open-Meteo API. Python’s requests library is particularly suitable for this task. The request should be sent to the constructed API URL, and the response will typically be in JSON format.
-
-4. Processing the Response Data
-
-- Once the response is received from the API, it is typically in JSON format. The next step involves parsing this JSON data to extract the relevant information. Using a data processing library like pandas, one can convert the data into a DataFrame for easier manipulation and analysis.
-
-5. Displaying the Data
-
-- After processing the data, it is essential to present it in a user-friendly format. The pandas library can be used to display the data in a tabular form, and visualization libraries like matplotlib can create visual representations such as plots and charts.
-
-6. Automating the Process
-
-- To continuously retrieve and update the weather data at regular intervals, automation is key. This can be achieved using a timer or scheduler, which ensures that the data is periodically fetched, processed, and displayed.
-
-By following these steps, one can efficiently retrieve, process, and visualize weather data from the Open-Meteo API in real-time. This process ensures that the data is continuously updated and accurately reflects the current weather conditions.
----
-## Project Components code on EMR AWS cluster
-1. Go to page https://awsacademy.instructure.com/courses/111020/modules/items/10426635
-2. Log in to aws Academy
-3. Complete the course
-4. Start the Lab
-5. After that go to AWS console and log in https://aws.amazon.com/console/
-6. Search for EMR cluster
-7. Create a Cluster (select the appropriate options) Most important:
-  - Create S3 Bucket for storage
-  - Create VPC for communication with studio:Creating a Virtual Private Cloud (VPC) when setting up a cluster with AWS Studio and JupyterLab is crucial for security and efficient communication. The VPC provides an isolated network environment, ensuring that your resources are protected and can securely communicate with each other. By placing the cluster and AWS Studio within the same VPC, you ensure low-latency, secure communication between them, avoiding exposure to the public internet and meeting compliance requirements. This setup enhances performance and security for your data and applications.
-  - Create EC2 Key pair: An EC2 key pair is essential for securely accessing and managing your Amazon EC2 instances, which are part of cluster.
-  - Cluster will be created after 15 minutes
-8. After Cluster is created, create a studio
-9. Launch the studio (JupiterLab will open in the tab)
-10. Attach the cluster to the studio
-11. Select pyspark as kernel
-12. Now you can write and compile code
----
 

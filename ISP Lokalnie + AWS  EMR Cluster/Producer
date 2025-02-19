@@ -1,0 +1,32 @@
+from kafka import KafkaProducer
+import requests
+import datetime
+import json
+import time
+
+# Funkcja do pobierania danych pogodowych
+def fetch_weather_data():
+    url = "https://api.open-meteo.com/v1/forecast"
+    params = {
+        "latitude": 54.3837,
+        "longitude": 18.3835,
+        "daily": "temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,wind_speed_10m_max,weathercode",
+        "timezone": "Europe/Warsaw",
+        "start": datetime.datetime.now().strftime("%Y-%m-%d"),
+        "end": (datetime.datetime.now() + datetime.timedelta(days=7)).strftime("%Y-%m-%d")
+    }
+    response = requests.get(url, params=params)
+    return response.json()
+
+# Konfiguracja producenta Kafka
+producer = KafkaProducer(
+    bootstrap_servers='localhost:9092',
+    value_serializer=lambda v: json.dumps(v).encode('utf-8')
+)
+
+# Wysyłanie danych pogodowych do Kafka co godzinę
+while True:
+    weather_data = fetch_weather_data()
+    producer.send('weather-updates', weather_data)
+    print("Wysłano dane pogodowe do Kafka")
+    time.sleep(3600)  # Aktualizacja co godzinę

@@ -1,0 +1,28 @@
+from confluent_kafka import Consumer, KafkaError, KafkaException
+
+# Konfiguracja konsumenta z poprawnym adresem IP
+conf = {
+    'bootstrap.servers': 'localhost:9092',  # Zastąp 'localhost' odpowiednim adresem IP, jeśli Kafka działa na innej maszynie
+    'group.id': 'my_group',
+    'auto.offset.reset': 'earliest'
+}
+
+consumer = Consumer(conf)
+topic = 'topic test'  # Nazwa tematu
+
+consumer.subscribe([topic])
+
+print(f'Listening to topic: {topic}')
+
+while True:
+    msg = consumer.poll(1.0)
+
+    if msg is None:
+        continue
+    if msg.error():
+        if msg.error().code() == KafkaError._PARTITION_EOF:
+            print(f'End of partition reached {msg.topic()} [{msg.partition()}]')         
+    else:
+        print(f'Received message: {msg.value().decode("utf-8")}')
+
+consumer.close()
